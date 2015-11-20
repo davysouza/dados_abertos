@@ -1,6 +1,7 @@
 @extends('master')
 @section('styles')
 <link rel="stylesheet" href="{{ url('css/jquery-ui.css') }}">
+<link rel="stylesheet" href="{{ url('css/dropdown/style1.css') }}">
 @stop
 @section('styles')
 <link rel="stylesheet" href="{{ url('css/responsive-tables.css') }}">
@@ -15,14 +16,23 @@
 </ul>
 @stop
 @section('content')
-<section class="about_us_area" id="ME">
+<section class="about_us_area main clearfix" id="ME">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12 text-right" style="margin-top:50px">
-				<a href="#">Olá {!! Session::get('name') !!},</a>
+			<div class="col-md-12" style="margin-top:50px">
+				<div class="fleft" style="float: right">
+					<select id="cd-dropdown" name="cd-dropdown" class="cd-select" style="width:1%">
+						<option value="-1" selected>Olá {!! Session::get('name') !!},</option>
+						<option value="1" class="icon-monkey">Editar Perfil</option>
+						<option value="2" class="icon-bear">Deletar Conta</option>
+					</select>
+				</div>
 			</div>
 		</div>
 	</div>
+</section>
+<section class="main clearfix">
+
 </section>
 <section class="about_us_area" id="SERVICE">
 	<div class="container">
@@ -194,6 +204,7 @@
 <script src="{{ url('js/main.js') }}"></script> <!-- Gem jQuery -->
 <script src="{{ url('js/jquery-ui.js') }}"></script> <!-- jQuery UI -->
 <script src="{{ url('js/responsive-tables.js') }}"></script> <!-- Responsive Tables -->
+<script src="{{ url('js/jquery.dropdown.js') }}"></script> <!-- Drop Down Menu -->
 <script>
 $(function() {
 	var dialog = $( "#dialog-form" ).dialog({
@@ -210,6 +221,13 @@ $(function() {
 		dialog.dialog("open");
 	});
 });
+</script>
+<script type="text/javascript">
+	$( function() {
+		$( '#cd-dropdown' ).dropdown( {
+			gutter : 5
+		} );
+	});
 </script>
 <script src="{{ url('js/my-scripts.js') }}"></script> <!-- My Scripts -->
 @stop
