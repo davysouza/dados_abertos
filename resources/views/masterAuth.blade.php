@@ -14,16 +14,11 @@
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Montserrat:400,700">
 
 		<!-- Font Awesome -->
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="{{ url('css/final.css') }}">
 		@yield('styles');
 	</head>
 
 	<body>
-		<!-- Preloader -->
-		<div id="preloader">
-			<div id="status">&nbsp;</div>
-		</div>
 		<header id="HOME" style="background-position: 50% -125px;">
 			<div class="section_overlay">
 				<nav class="navbar navbar-default navbar-fixed-top">
@@ -49,47 +44,13 @@
 			</div>
 		</header>
 		@yield('content')
-		<section class="about_us_area" id="ABOUT">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 text-center">
-						<div class="about_title">
-							<h2>Sobre</h2>
-							<img src="{{ url('images/shape.png') }}" alt="">
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="container">
-		        <div class="sobre text-center wow fadeInUp animated">
-		            <p>"Dados abertos governamentais resulta de uma necessidade da sociedade por uma maior transparência e <br> participação na gestão dos recursos públicos."</p>
-		            <hr>
-		        </div>
-		    </div>
-		</section>
-		<footer>
+        <footer>
 			<div class="container">
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12 text-center">
 							<div class="footer_logo   wow fadeInUp animated">
 								<img src="{{ url('images/logo.png') }}" alt="">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12 text-center   wow fadeInUp animated">
-							<div class="social">
-								<h2>Follow Me on Here</h2>
-								<ul class="icon_list">
-									<li><a href="http://www.facebook.com/abdullah.noman99"target="_blank"><i class="fa fa-facebook"></i></a></li>
-									<li><a href="http://www.twitter.com/absconderm"target="_blank"><i class="fa fa-twitter"></i></a></li>
-									<li><a href=""><i class="fa fa-google-plus"></i></a></li>
-									<li><a href=""><i class="fa fa-linkedin"></i></a></li>
-									<li><a href="http://www.dribbble.com/abdullahnoman"target="_blank"><i class="fa fa-dribbble"></i></a></li>
-								</ul>
 							</div>
 						</div>
 					</div>
@@ -112,10 +73,6 @@
 		<!-- Scripts -->
 		<script src="{{ url('js/jquery-2.1.4.min.js') }}"></script>
 		<script src="{{ url('js/bootstrap.min.js') }}"></script>
-		<script src="{{ url('js/jquery.nicescroll.js') }}"></script>
-		<script src="{{ url('js/owl.carousel.js') }}"></script>
-		<script src="{{ url('js/wow.js') }}"></script>
-		<script src="{{ url('js/script.js') }}"></script>
 		@yield('scripts')
 	</body>
 </html>

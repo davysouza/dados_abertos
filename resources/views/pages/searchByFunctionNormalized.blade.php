@@ -5,8 +5,8 @@
 @section('nav')
 <ul class="nav navbar-nav navbar-right main-nav">
 	<li><a href="/">Início</a></li>
-	<li><a href="/search/function#SERVICE">Buscar</a></li>
-	<li><a href="/search/function#ABOUT">Sobre</a></li>
+	<li><a href="/search/functionNormalized#SERVICE">Buscar</a></li>
+	<li><a href="/search/functionNormalized#ABOUT">Sobre</a></li>
 	@if(Session::get('isLogged'))
 		<li><a href="/user" style="text-transform: none"> Olá {!! Session::get('name') !!},</a></li>
 		<li><a href="/auth/logout" style="text-transform: none">Sair</a></li>
@@ -119,20 +119,21 @@
 			<div class="col-md-4  wow fadeInRight animated">
 				<h3 style="margin-top:0">Selecione as Cidades:</h3>
 				@foreach($response['cidade'] as $cidade)
-					@if($cidade['total'] != 0)
+					@if($cidade['total']['bruto'] != 0)
 						<span><input type="checkbox" value="{!! $cidade['nome'] !!}" checked> {!! $cidade['nome'] !!}</span><br>
 					@endif
 				@endforeach
 				<hr>
 				<div id="accordion">
 					@foreach($response['cidade'] as $cidade)
-						@if($cidade['total'] != 0)
+						@if($cidade['total']['bruto'] != 0)
 							<h3>{!! $cidade['nome'] !!}</h3>
 							<div class="accordion-style">
 								<label>Área: </label><span> {{ $cidade['area'] }} km²</span><br>
 								<label>População Estimada ({{ $cidade['populacao']['ano'] }}): </label><span> {{ $cidade['populacao']['tam'] }}  hab.</span><br>
 								<label>PIB (2012): </label><span> R$ {{ $cidade['pib'] }}</span><br>
-								<label>Total Investido: </label><span> R$ {{ $cidade['total'] }}</span>
+								<label>Total Investido: </label><span> R$ {{ $cidade['total']['bruto'] }}</span><br>
+								<label>Total Investido per Capita: </label><span> R$ {{ $cidade['total']['percapita'] }}</span>
 							</div>
 						@endif
 					@endforeach
@@ -267,7 +268,7 @@
 	</div>
 </section>
 <div id="dialog-form" title="Salvar Gráfico">
-	{!! Form::open(['url' => 'save/function']) !!}
+	{!! Form::open(['url' => 'save/functionNormalized']) !!}
 		<fieldset>
 			{!! Form::hidden('periodo', $response['periodo']) !!}
 			{!! Form::hidden('funcao', $response['titulo']) !!}
@@ -285,7 +286,7 @@
 <script src="{{ url('js/modernizr.js') }}"></script> <!-- Modernizr -->
 <script src="{{ url('js/main.js') }}"></script> <!-- Gem jQuery -->
 <script src="{{ url('js/jquery-ui.js') }}"></script> <!-- jQuery UI -->
-<script src="http://code.highcharts.com/highcharts.js"></script> <!-- HighChart -->
+<script src="http://code.highcharts.com/highcharts.js"></script>
 <script>
 $(function () {
 	$('#grafico').highcharts({
@@ -310,13 +311,13 @@ $(function () {
 		},
 		yAxis: {
 			title: {
-				text: 'Investimentos (em R$ Milhões)'
+				text: 'Investimentos (R$)'
 			}
 		},
 		tooltip: {
-			valuePrefix: 'R$ ',
+	        valuePrefix: 'R$ ',
 			shared: true,
-			valueSuffix: ' milhões'
+			valueSuffix: '  por habitante'
 		},
 		credits: {
 			enabled: false
@@ -328,7 +329,7 @@ $(function () {
 		},
 		series: [
 			@foreach($response['cidade'] as $cidade)
-				@if($cidade['total'] != 0)
+				@if($cidade['total']['bruto'] != 0)
 					@if($cidade['nome'] == 'Campinas')
 						{
 							name: 'Campinas',

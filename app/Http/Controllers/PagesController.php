@@ -8,13 +8,14 @@ use App\Http\Controllers\Controller;
 use App\Dag;
 
 class PagesController extends Controller {
-    
+
 	public function index() {
-		return view('index');
+        $options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
+		return view('index')->with('options', $options);
 	}
-	
+
 	public function search() {
 		return view('pages.search');
 	}
-	
+
 }

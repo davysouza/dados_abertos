@@ -36,4 +36,12 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * A user can have many graphics
+     *
+     */
+    public function graphics() {
+        return $this->hasMany('App\Graphic');
+    }
 }

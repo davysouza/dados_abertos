@@ -21,7 +21,8 @@ elixir(function(mix) {
         'icon_font/owl.theme.default.css',
         'animate.css',
         'bootstrap.min.css',
-        'responsive.css'
+        'responsive.css',
+        'flat-table.css'
     ], 'public/css/final.css', 'public/css');
 
     mix.version('public/css/all.css');
