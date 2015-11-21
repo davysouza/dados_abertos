@@ -2,8 +2,6 @@
 @section('styles')
 <link rel="stylesheet" href="{{ url('css/jquery-ui.css') }}">
 <link rel="stylesheet" href="{{ url('css/dropdown/style1.css') }}">
-@stop
-@section('styles')
 <link rel="stylesheet" href="{{ url('css/responsive-tables.css') }}">
 @stop
 @section('nav')
@@ -172,7 +170,12 @@
 									<td>{!! $graphic['name'] !!}</td>
 									<td>{!! $graphic['tipo'] !!}</td>
 									<td>{!! $graphic['periodo'] !!}</td>
-									<td><button class="btn-table btn btn-primary">Selecionar</button></td>
+									<td>
+										{!! Form::open(['url' => 'select/graphic']) !!}
+											<input id="idgraphic" type="hidden" name="idgraphic" value="{!! $graphic['id'] !!}" />
+											<button class="select btn-table btn btn-primary">Selecionar</button>
+										{!! Form::close() !!}
+									</td>
 									<td><button id="btn-del-{!! $graphic['id'] !!}" class="erase btn-table btn btn-primary">Apagar</button></td>
 								</tr>
 							@endforeach
@@ -224,7 +227,7 @@ $(function() {
 </script>
 <script type="text/javascript">
 	$( function() {
-		$( '#cd-dropdown' ).dropdown( {
+		$('#cd-dropdown').dropdown( {
 			gutter : 5
 		} );
 	});

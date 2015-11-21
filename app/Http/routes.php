@@ -34,5 +34,15 @@ Route::post('save/functionNormalized', 'GraphicController@storeFunctionNormalize
 Route::post('save/totalCities', 'GraphicController@storeTotalCitiesGraphic');
 
 Route::post('erase/graphic', 'GraphicController@eraseGraphic');
+Route::post('select/graphic', 'GraphicController@selectGraphic');
+
+Route::get('details/city', 'GraphicController@detailsCity');
+Route::post('details/city', 'GraphicController@detailsCity');
+
+Route::get('details/function', 'GraphicController@detailsFunction');
+Route::post('details/function', 'GraphicController@detailsFunction');
+
+Route::get('details/totalCity', 'GraphicController@detailsTotalCity');
+Route::post('details/totalCity', 'GraphicController@detailsTotalCity');
 
 Route::get('user', 'UserController@index');

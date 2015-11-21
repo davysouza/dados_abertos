@@ -231,6 +231,14 @@ $(function () {
 			shared: true,
 			valueSuffix: ' milhões'
 		},
+		plotOptions: {
+            column: {
+                dataLabels: {
+                    enabled: true,
+					format: 'R$ {point.y:.2f} milhões'
+                }
+            }
+        },
 		series: [{
 			name: 'Investimentos Totais',
 			data: [{!! $response['valor'] !!}]

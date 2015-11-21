@@ -132,7 +132,13 @@
 								<label>Área: </label><span> {{ $cidade['area'] }} km²</span><br>
 								<label>População Estimada ({{ $cidade['populacao']['ano'] }}): </label><span> {{ $cidade['populacao']['tam'] }}  hab.</span><br>
 								<label>PIB (2012): </label><span> R$ {{ $cidade['pib'] }}</span><br>
-								<label>Total Investido: </label><span> R$ {{ $cidade['total'] }}</span>
+								<label>Total Investido: </label><span> R$ {{ $cidade['total'] }}</span><br>
+								{!! Form::open(['url' => 'details/function']) !!}
+									{!! Form::hidden('titulo', $response['titulo']) !!}
+									{!! Form::hidden('periodo', $response['periodo']) !!}
+									{!! Form::hidden('cidade', $cidade['nome']) !!}
+									<button id="" class="btn" type="submit">+ Detalhes</button>
+								{!! Form::close() !!}
 							</div>
 						@endif
 					@endforeach

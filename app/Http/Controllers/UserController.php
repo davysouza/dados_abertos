@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\User;
 use App\Dag;
-use DB;
 use App\Graphic;
 use App\Http\Requests;
 use App\Http\Requests\CreateUserRequest;
@@ -22,7 +22,7 @@ class UserController extends Controller {
 
     public function index() {
         $options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
-        $graphics = Graphic::selectRaw('id, name, dataini, datafim, tipo, cidade, funcao')->paginate('4');
+        $graphics = Auth::user()->graphics()->paginate('4');
         $i = 0;
         foreach($graphics as $gr) {
             switch ($graphics[$i]['tipo']) {

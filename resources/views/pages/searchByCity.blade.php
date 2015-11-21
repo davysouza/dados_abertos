@@ -133,6 +133,12 @@
 				@if(Session::get('isLogged'))
 					<div class="text-right" style="padding-top:20px">
 						<button id="btn_salvar" class="btnsearch cs-btn" type="submit">Salvar Gráfico</button>
+						{!! Form::open(['url' => 'details/city']) !!}
+							{!! Form::hidden('titulo', $response['titulo']) !!}
+							{!! Form::hidden('periodo', $response['periodo']) !!}
+							{!! Form::hidden('cidade', $response['cidade']['nome']) !!}
+							<button id="btn_detalhes" class="btnsearch cs-btn" type="submit" style="margin-top:10px">+ Detalhes</button>
+						{!! Form::close() !!}
 					</div>
 				@endif
 			</div>
@@ -262,8 +268,8 @@
 <div id="dialog-form" title="Salvar Gráfico">
 	{!! Form::open(['url' => 'save/city']) !!}
 		<fieldset>
-			{!! Form::hidden('periodo', $response['periodo']) !!}
-			{!! Form::hidden('cidade', $response['cidade']['nome']) !!}
+				{!! Form::hidden('periodo', $response['periodo']) !!}
+				{!! Form::hidden('cidade', $response['cidade']['nome']) !!}
 			<input type="text" name="name" id="name" placeholder="digite um nome para o gráfico... " class="text ui-widget-content ui-corner-all">
 			<hr>
 			<div class="text-center">

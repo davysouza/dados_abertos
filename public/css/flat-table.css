@@ -18,7 +18,7 @@
 	font-size: 1.5em;
 }
 .flat-table td {
-	color: #610606;
+	color: #500303;
 	padding: 0.7em 1em 0.7em 1.15em;
 	text-shadow: 0 0 1px rgba(255,255,255,0.1);
 	font-size: 1.4em;
@@ -40,8 +40,8 @@
 .flat-table-2 thead {
 	background: rgb(255, 130, 128);
 }
-.flat-table-2 tbody {
-	background: rgba(255, 235, 226, 0.65);
+.flat-table-2 tbody {	
+	background: rgba(255, 246, 246, 0.45);
 }
 
 .flat-table-3 {
@@ -52,10 +52,10 @@
 }
 .btn-table {
 	background: #A51B1B;
-	border-color: #610606;
+	border-color: #500303;
 }
 
 .btn-table:hover {
-	background: #610606;
+	background: #500303;
 	border-color: #550000;
 }

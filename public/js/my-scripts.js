@@ -52,7 +52,7 @@ $(function() {
 
 /*  ==========  DIALOG FORM  ==========  */
 $(function() {
-	var dialog = $( "#dialog-form" ).dialog({
+	var dialog = $("#dialog-form").dialog({
 		autoOpen: false,
 		height: 'auto',
 		width: 290,
