@@ -96,8 +96,10 @@ class SearchController extends Controller {
 		$response['periodo'] = "De ".$this->formatDateToUser($request['datainifunc'])." à ".$this->formatDateToUser($request['datafimfunc']);
 
 		$options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
-		$graphics = $this->myGraphics();
-
+		$graphics = [];
+		if(Session::get('isLogged')){
+			$graphics = $this->myGraphics();
+		}
 		return view('pages.searchByFunction')->with(array('response' => $response, 'options' => $options, 'graphics' => $graphics));
 		//return $response;
 	}
@@ -201,8 +203,10 @@ class SearchController extends Controller {
 		$response['periodo'] = "De ".$this->formatDateToUser($request['datainifuncn'])." à ".$this->formatDateToUser($request['datafimfuncn']);
 
 		$options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
-		$graphics = $this->myGraphics();
-
+		$graphics = [];
+		if(Session::get('isLogged')){
+			$graphics = $this->myGraphics();
+		}
 		return view('pages.searchByFunctionNormalized')->with(array('response' => $response, 'options' => $options, 'graphics' => $graphics));
 	}
 
@@ -263,8 +267,10 @@ class SearchController extends Controller {
 		$response['cidade']['area_mais_investida'] = $func." - R$ ".$this->formatNumber(round($maior,2));
 
 		$options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
-		$graphics = $this->myGraphics();
-
+		$graphics = [];
+		if(Session::get('isLogged')){
+			$graphics = $this->myGraphics();
+		}
 		return view('pages.searchByCity')->with('response', $response)->with('options', $options)->with('graphics', $graphics);
 		//return $response;
 	}
@@ -318,8 +324,10 @@ class SearchController extends Controller {
 		$response['subtitulo'] = "De ".$this->formatDateToUser($request['datainitcity'])." à ".$this->formatDateToUser($request['datafimtcity']);
 
 		$options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
-		$graphics = $this->myGraphics();
-
+		$graphics = [];
+		if(Session::get('isLogged')){
+			$graphics = $this->myGraphics();
+		}
 		return view('pages.searchByTotalCities')->with('response', $response)->with('options', $options)->with('graphics', $graphics);
 		//return $response;
 	}
