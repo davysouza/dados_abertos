@@ -134,12 +134,14 @@
 								<label>PIB (2012): </label><span> R$ {{ $cidade['pib'] }}</span><br>
 								<label>Total Investido: </label><span> R$ {{ $cidade['total']['bruto'] }}</span><br>
 								<label>Total Investido per Capita: </label><span> R$ {{ $cidade['total']['percapita'] }}</span>
-								{!! Form::open(['url' => 'details/function']) !!}
-									{!! Form::hidden('titulo', $response['titulo']) !!}
-									{!! Form::hidden('periodo', $response['periodo']) !!}
-									{!! Form::hidden('cidade', $cidade['nome']) !!}
-									<button id="" class="btn" type="submit">+ Detalhes</button>
-								{!! Form::close() !!}
+								@if(Session::get('isLogged'))
+									{!! Form::open(['url' => 'details/function']) !!}
+										{!! Form::hidden('titulo', $response['titulo']) !!}
+										{!! Form::hidden('periodo', $response['periodo']) !!}
+										{!! Form::hidden('cidade', $cidade['nome']) !!}
+										<button id="" class="btn" type="submit">+ Detalhes</button>
+									{!! Form::close() !!}
+								@endif
 							</div>
 						@endif
 					@endforeach

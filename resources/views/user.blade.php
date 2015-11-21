@@ -29,9 +29,6 @@
 		</div>
 	</div>
 </section>
-<section class="main clearfix">
-
-</section>
 <section class="about_us_area" id="SERVICE">
 	<div class="container">
 		<div class="row">
@@ -201,6 +198,17 @@
 		</fieldset>
 	{!! Form::close() !!}
 </div>
+<div id="dialog-form-del" title="Deletar Conta">
+	{!! Form::open(['url' => 'unsubscribe']) !!}
+		<fieldset class="text-center">
+			<label style="font-weight: lighter">Está certo disso? Todos os seus dados serão apagados</label>
+			<input id="hue" type="hidden" name="id" />
+			<div class="text-center">
+				<button class="btnsearch cs-btn">Apagar</button>
+			</div>
+		</fieldset>
+	{!! Form::close() !!}
+</div>
 @stop
 @section('scripts')
 <script src="{{ url('js/modernizr.js') }}"></script> <!-- Modernizr -->
@@ -231,6 +239,20 @@ $(function() {
 			gutter : 5
 		} );
 	});
+</script>
+<script>
+$(function() {
+	var dialogs = $( "#dialog-form-del" ).dialog({
+		autoOpen: false,
+		height: 'auto',
+		width: 290,
+		modal: true,
+        fluid: true
+	});
+    $(".icon-bear").click(function() {
+		dialogs.dialog("open");
+	});
+});
 </script>
 <script src="{{ url('js/my-scripts.js') }}"></script> <!-- My Scripts -->
 @stop

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Session;
 use App\User;
 use App\Dag;
 use App\Graphic;
@@ -43,6 +44,15 @@ class UserController extends Controller {
             $i++;
         }
         return view('user')->with(array('options' => $options, 'graphics' => $graphics));
+    }
+
+    public function unsubscribe() {
+        $user = User::find(Auth::user()->id);
+        Auth::logout();
+        Session::flush();
+        if ($user->delete()) {
+             return view('unsubscribe');
+        }
     }
 
     private function formatDateToUser($date) {

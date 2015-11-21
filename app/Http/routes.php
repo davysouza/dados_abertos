@@ -45,4 +45,6 @@ Route::post('details/function', 'GraphicController@detailsFunction');
 Route::get('details/totalCity', 'GraphicController@detailsTotalCity');
 Route::post('details/totalCity', 'GraphicController@detailsTotalCity');
 
+Route::post('unsubscribe', 'UserController@unsubscribe');
+
 Route::get('user', 'UserController@index');
