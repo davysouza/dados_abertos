@@ -154,6 +154,58 @@
 		</div>
 	</div>
 </section>
+@if(Session::get('isLogged'))
+<section class="about_us_area" id="MYGRAPHS">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class="about_title">
+					<h2>Meus Gráficos</h2>
+					<img src="{{ url('images/shape.png') }}" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center wow fadeInRight animated">
+				<center>
+				@if(count($graphics) > 0)
+					<table class="responsive flat-table flat-table-2">
+						<thead>
+							<th>Nome</th>
+							<th>Tipo</th>
+							<th>Período</th>
+							<th>Selecionar</th>
+							<th>Apagar</th>
+						</thead>
+						<tbody>
+							@foreach($graphics as $graphic)
+								<tr>
+									<td>{!! $graphic['name'] !!}</td>
+									<td>{!! $graphic['tipo'] !!}</td>
+									<td>{!! $graphic['periodo'] !!}</td>
+									<td>
+										{!! Form::open(['url' => 'select/graphic']) !!}
+											<input id="idgraphic" type="hidden" name="idgraphic" value="{!! $graphic['id'] !!}" />
+											<button class="select btn-table btn btn-primary">Selecionar</button>
+										{!! Form::close() !!}
+									</td>
+									<td><button id="btn-del-{!! $graphic['id'] !!}" class="erase btn-table btn btn-primary">Apagar</button></td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+					{!! $graphics->render() !!}
+				@else
+					<span>Nenhum gráfico salvo até o momento.</span>
+				@endif
+				</center>
+			</div>
+		</div>
+	</div>
+</section>
+@endif
 <section class="about_us_area" id="SERVICE">
 	<div class="container">
 		<div class="row">

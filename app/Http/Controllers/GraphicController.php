@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Request;
+use Redirect;
 use Session;
 use App\Graphic;
 use App\Dag;
@@ -131,7 +132,10 @@ class GraphicController extends Controller {
 
     public function selectGraphic() {
         $request = Request::all();
-        $graphic = Auth::user()->graphics()->where('id', $request['idgraphic'])->get();
+        if(!isset($request['page'])){
+            Session::put('idgraphic', $request['idgraphic']);
+        }
+        $graphic = Auth::user()->graphics()->where('id', Session::get('idgraphic'))->get();
 
         switch($graphic[0]['tipo']) {
             case 'function':
@@ -228,8 +232,9 @@ class GraphicController extends Controller {
 		$response['periodo'] = "De ".$this->formatDateToUser($request['dataini'])." à ".$this->formatDateToUser($request['datafim']);
 
 		$options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
+        $graphics = $this->myGraphics();
 
-		return view('pages.searchByFunction')->with('response', $response)->with('options', $options);
+		return view('pages.searchByFunction')->with('response', $response)->with('options', $options)->with('graphics', $graphics);
 	}
 
 	public function functionNormalizedGraphic($request) {
@@ -326,8 +331,9 @@ class GraphicController extends Controller {
 		$response['periodo'] = "De ".$this->formatDateToUser($request['dataini'])." à ".$this->formatDateToUser($request['datafim']);
 
 		$options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
+        $graphics = $this->myGraphics();
 
-		return view('pages.searchByFunctionNormalized')->with('response', $response)->with('options', $options);
+		return view('pages.searchByFunctionNormalized')->with('response', $response)->with('options', $options)->with('graphics', $graphics);
 	}
 
 	public function cityGraphic($request) {
@@ -382,8 +388,9 @@ class GraphicController extends Controller {
 		$response['cidade']['area_mais_investida'] = $func." - R$ ".$this->formatNumber(round($maior,2));
 
 		$options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
-
-		return view('pages.searchByCity')->with('response', $response)->with('options', $options);
+        $graphics = $this->myGraphics();
+        
+		return view('pages.searchByCity')->with('response', $response)->with('options', $options)->with('graphics', $graphics);
 		//return $response;
 	}
 
@@ -434,7 +441,33 @@ class GraphicController extends Controller {
 		$response['subtitulo'] = "De ".$this->formatDateToUser($request['dataini'])." à ".$this->formatDateToUser($request['datafim']);
 
 		$options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
-		return view('pages.searchByTotalCities')->with('response', $response)->with('options', $options);
+        $graphics = $this->myGraphics();
+
+		return view('pages.searchByTotalCities')->with('response', $response)->with('options', $options)->with('graphics', $graphics);
+	}
+
+    private function myGraphics() {
+		$graphics = Auth::user()->graphics()->paginate('4');
+        $i = 0;
+        foreach($graphics as $gr) {
+            switch ($graphics[$i]['tipo']) {
+                case 'city':
+                    $graphics[$i]['tipo'] = "Investimento por Cidade (".$graphics[$i]['cidade'].")";
+                    break;
+                case 'function':
+                    $graphics[$i]['tipo'] = "Investimento em ".$graphics[$i]['funcao'];
+                    break;
+                case 'functionNormalized':
+                    $graphics[$i]['tipo'] = "Investimento em ".$graphics[$i]['funcao']." (normalizado)";
+                    break;
+                case 'totalCities':
+                    $graphics[$i]['tipo'] = "Investimentos Totais por Cidade";
+                    break;
+            }
+            $graphics[$i]['periodo'] = "De ".$this->formatDateToUser($graphics[$i]['dataini'])." à ".$this->formatDateToUser($graphics[$i]['datafim']);
+            $i++;
+        }
+		return $graphics;
 	}
 
     private function formatPeriod($periodo) {

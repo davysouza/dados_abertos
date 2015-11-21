@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Session;
 use App\Dag;
 use App\City;
@@ -12,7 +13,11 @@ class SearchController extends Controller {
 
 	public function searchByFunction() {
 
-		$request = Request::all();
+		$req = Request::all();
+		if(!isset($req['page'])){
+			Session::put('func', $req);
+		}
+		$request = Session::get('func');
 		$request['datainifunc'] = $this->formatDateToBD(substr_replace($request['datainifunc'], '01', 8));
 		$request['datafimfunc'] = $this->formatDateToBD(substr_replace($request['datafimfunc'], '01', 8));
 
@@ -91,13 +96,18 @@ class SearchController extends Controller {
 		$response['periodo'] = "De ".$this->formatDateToUser($request['datainifunc'])." à ".$this->formatDateToUser($request['datafimfunc']);
 
 		$options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
+		$graphics = $this->myGraphics();
 
-		return view('pages.searchByFunction')->with('response', $response)->with('options', $options);
+		return view('pages.searchByFunction')->with(array('response' => $response, 'options' => $options, 'graphics' => $graphics));
 		//return $response;
 	}
 
 	public function searchByFunctionNormalized() {
-		$request = Request::all();
+		$req = Request::all();
+		if(!isset($req['page'])){
+			Session::put('funcNorm', $req);
+		}
+		$request = Session::get('funcNorm');
 		$request['datainifuncn'] = $this->formatDateToBD(substr_replace($request['datainifuncn'], '01', 8));
 		$request['datafimfuncn'] = $this->formatDateToBD(substr_replace($request['datafimfuncn'], '01', 8));
 
@@ -191,13 +201,17 @@ class SearchController extends Controller {
 		$response['periodo'] = "De ".$this->formatDateToUser($request['datainifuncn'])." à ".$this->formatDateToUser($request['datafimfuncn']);
 
 		$options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
+		$graphics = $this->myGraphics();
 
-		return view('pages.searchByFunctionNormalized')->with('response', $response)->with('options', $options);
+		return view('pages.searchByFunctionNormalized')->with(array('response' => $response, 'options' => $options, 'graphics' => $graphics));
 	}
 
 	public function searchByCity() {
-
-		$request = Request::all();
+		$req = Request::all();
+		if(!isset($req['page'])){
+			Session::put('city', $req);
+		}
+		$request = Session::get('city');
 		$request['datainifunc'] = $this->formatDateToBD(substr_replace($request['datainicity'], '01', 8));
 		$request['datafimfunc'] = $this->formatDateToBD(substr_replace($request['datafimcity'], '01', 8));
 
@@ -249,14 +263,18 @@ class SearchController extends Controller {
 		$response['cidade']['area_mais_investida'] = $func." - R$ ".$this->formatNumber(round($maior,2));
 
 		$options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
+		$graphics = $this->myGraphics();
 
-		return view('pages.searchByCity')->with('response', $response)->with('options', $options);
+		return view('pages.searchByCity')->with('response', $response)->with('options', $options)->with('graphics', $graphics);
 		//return $response;
 	}
 
 	public function searchByTotalCities() {
-
-		$request = Request::all();
+		$req = Request::all();
+		if(!isset($req['page'])){
+			Session::put('totalCities', $req);
+		}
+		$request = Session::get('totalCities');
 		$response['cidade'] =
 			Dag::selectRaw('cidade')
 			->whereBetween('mes_ano', [$request['datainitcity'],$request['datafimtcity']])->groupBy('cidade')->get();
@@ -300,8 +318,34 @@ class SearchController extends Controller {
 		$response['subtitulo'] = "De ".$this->formatDateToUser($request['datainitcity'])." à ".$this->formatDateToUser($request['datafimtcity']);
 
 		$options = Dag::selectRaw('funcao')->groupBy('funcao')->groupBy('cidade')->get();
-		return view('pages.searchByTotalCities')->with('response', $response)->with('options', $options);
+		$graphics = $this->myGraphics();
+
+		return view('pages.searchByTotalCities')->with('response', $response)->with('options', $options)->with('graphics', $graphics);
 		//return $response;
+	}
+
+	private function myGraphics() {
+		$graphics = Auth::user()->graphics()->paginate('4');
+        $i = 0;
+        foreach($graphics as $gr) {
+            switch ($graphics[$i]['tipo']) {
+                case 'city':
+                    $graphics[$i]['tipo'] = "Investimento por Cidade (".$graphics[$i]['cidade'].")";
+                    break;
+                case 'function':
+                    $graphics[$i]['tipo'] = "Investimento em ".$graphics[$i]['funcao'];
+                    break;
+                case 'functionNormalized':
+                    $graphics[$i]['tipo'] = "Investimento em ".$graphics[$i]['funcao']." (normalizado)";
+                    break;
+                case 'totalCities':
+                    $graphics[$i]['tipo'] = "Investimentos Totais por Cidade";
+                    break;
+            }
+            $graphics[$i]['periodo'] = "De ".$this->formatDateToUser($graphics[$i]['dataini'])." à ".$this->formatDateToUser($graphics[$i]['datafim']);
+            $i++;
+        }
+		return $graphics;
 	}
 
 	private function formatDateToBD($date) {

@@ -14,6 +14,11 @@
 Route::get('/', 'PagesController@index');
 Route::get('search', 'PagesController@search');
 
+Route::get('search/function', 'SearchController@searchByFunction');
+Route::get('search/functionNormalized', 'SearchController@searchByFunctionNormalized');
+Route::get('search/city', 'SearchController@searchByCity');
+Route::get('search/total_cities', 'SearchController@searchByTotalCities');
+
 Route::post('search/function', 'SearchController@searchByFunction');
 Route::post('search/city', 'SearchController@searchByCity');
 Route::post('search/functionNormalized', 'SearchController@searchByFunctionNormalized');
@@ -35,6 +40,7 @@ Route::post('save/totalCities', 'GraphicController@storeTotalCitiesGraphic');
 
 Route::post('erase/graphic', 'GraphicController@eraseGraphic');
 Route::post('select/graphic', 'GraphicController@selectGraphic');
+Route::get('select/graphic', 'GraphicController@selectGraphic');
 
 Route::get('details/city', 'GraphicController@detailsCity');
 Route::post('details/city', 'GraphicController@detailsCity');
