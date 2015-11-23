@@ -239,6 +239,7 @@ class SearchController extends Controller {
 		$i = 0;
 		$total = 0;
 		$maior = -1;
+		$func = "";
 		foreach ($response['valor'] as $v) {
 			if($maior < strval($v['valor'])) {
 					$maior = strval($v['valor']);

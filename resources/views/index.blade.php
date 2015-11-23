@@ -81,7 +81,7 @@
 				</p>
 				<p class="fieldset">
 					<label class="image-replace cd-password" for="signup-password">Password</label>
-					<input class="full-width has-padding has-border" id="signup-password" name="pass" type="password"  placeholder="Senha" required>
+					<input class="full-width has-padding has-border" id="signup-password" name="password" type="password"  placeholder="Senha" required>
 					<a href="#0" class="hide-password">Mostrar</a>
 					<span class="cd-error-message">Error message here!</span>
 				</p>

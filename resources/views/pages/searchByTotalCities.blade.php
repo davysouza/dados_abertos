@@ -224,6 +224,17 @@
 		</div>
 	</div>
 </section>
+<div id="dialog-form-erase" title="Apagar Gráfico">
+	{!! Form::open(['url' => 'erase/graphic']) !!}
+		<fieldset>
+			<label>Está certo disso?</label>
+			<input id="hue" type="hidden" name="id" />
+			<div class="text-center">
+				<button class="btnsearch cs-btn">Apagar</button>
+			</div>
+		</fieldset>
+	{!! Form::close() !!}
+</div>
 <div id="dialog-form" title="Salvar Gráfico">
 	{!! Form::open(['url' => 'save/totalCities']) !!}
 		<fieldset>
@@ -295,6 +306,23 @@ $(function () {
 			name: 'Investimentos Totais',
 			data: [{!! $response['valor'] !!}]
 		}]
+	});
+});
+</script>
+<script>
+$(function() {
+	var dialog = $( "#dialog-form-erase" ).dialog({
+		autoOpen: false,
+		height: 'auto',
+		width: 290,
+		modal: true,
+        fluid: true
+	});
+    $(".erase").click(function() {
+		var id = $(this).attr('id');
+		id = id.replace('btn-del-', '');
+		$("#hue").val(id);
+		dialog.dialog("open");
 	});
 });
 </script>

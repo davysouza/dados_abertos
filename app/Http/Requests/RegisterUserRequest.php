@@ -11,8 +11,7 @@ class RegisterUserRequest extends Request
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return true;
     }
 
@@ -21,12 +20,10 @@ class RegisterUserRequest extends Request
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:4|same:password-confirm',
         ];
     }
 }

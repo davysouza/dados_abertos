@@ -5,8 +5,8 @@
 @section('nav')
 <ul class="nav navbar-nav navbar-right main-nav">
 	<li><a href="/">Início</a></li>
-	<li><a href="/search/functionNormalized#SERVICE">Buscar</a></li>
-	<li><a href="/search/functionNormalized#ABOUT">Sobre</a></li>
+	<li><a href="#SERVICE">Buscar</a></li>
+	<li><a href="#ABOUT">Sobre</a></li>
 	@if(Session::get('isLogged'))
 		<li><a href="/user" style="text-transform: none"> Olá {!! Session::get('name') !!},</a></li>
 		<li><a href="/auth/logout" style="text-transform: none">Sair</a></li>
@@ -99,6 +99,30 @@
 		<a href="#0" class="cd-close-form">Close</a>
 	</div> <!-- cd-user-modal-container -->
 </div> <!-- cd-user-modal -->
+@if($response['campinas'] == "" && $response['sjc'] == "" && $response['rj'] == "")
+<section class="about_us_area" id="GRAPHIC">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class="about_title">
+					<h2>{{ $response['titulo'] }}</h2>
+					<h4>{{ $response['periodo'] }}</h4>
+					<img src="{{ url('images/shape.png') }}" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class="about_title">
+					<h4 style="margin-bottom:170px; margin-top:70px">Nenhum resultado foi encontrado nesse periodo. :(</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+@else
 <section class="about_us_area" id="GRAPHIC">
 	<div class="container">
 		<div class="row">
@@ -155,6 +179,7 @@
 		</div>
 	</div>
 </section>
+@endif
 @if(Session::get('isLogged'))
 <section class="about_us_area" id="MYGRAPHS">
 	<div class="container">
@@ -327,6 +352,17 @@
 		</div>
 	</div>
 </section>
+<div id="dialog-form-erase" title="Apagar Gráfico">
+	{!! Form::open(['url' => 'erase/graphic']) !!}
+		<fieldset>
+			<label>Está certo disso?</label>
+			<input id="hue" type="hidden" name="id" />
+			<div class="text-center">
+				<button class="btnsearch cs-btn">Apagar</button>
+			</div>
+		</fieldset>
+	{!! Form::close() !!}
+</div>
 <div id="dialog-form" title="Salvar Gráfico">
 	{!! Form::open(['url' => 'save/functionNormalized']) !!}
 		<fieldset>
@@ -441,6 +477,23 @@ $("input[type=checkbox]").click(function() {
 			}
 		});
 	}
+});
+</script>
+<script>
+$(function() {
+	var dialog = $( "#dialog-form-erase" ).dialog({
+		autoOpen: false,
+		height: 'auto',
+		width: 290,
+		modal: true,
+        fluid: true
+	});
+    $(".erase").click(function() {
+		var id = $(this).attr('id');
+		id = id.replace('btn-del-', '');
+		$("#hue").val(id);
+		dialog.dialog("open");
+	});
 });
 </script>
 <script src="{{ url('js/my-scripts.js') }}"></script> <!-- My Scripts -->
